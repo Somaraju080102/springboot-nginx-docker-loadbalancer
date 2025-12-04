@@ -1,19 +1,18 @@
-Spring Boot + Nginx Load Balancer using Docker Compose
+# Spring Boot + Nginx Load Balancer using Docker Compose
 
-This project demonstrates how to run a Spring Boot application behind Nginx, using Docker Compose with load balancing across multiple instances.
+This project demonstrates how to run a **Spring Boot application behind Nginx** using **Docker Compose**, with **load balancing** across multiple application instances.
 
-It includes:
+The setup includes:
+- 🐳 Dockerized Spring Boot Application
+- 🌀 Nginx Reverse Proxy
+- ⚖️ Round-robin Load Balancing
+- 🔗 Automatic Docker Networking
 
-🐳 Dockerized Spring Boot application
+---
 
-🌀 Nginx reverse proxy
+## Architecture Overview
 
-⚖️ Load balancing (round-robin) between multiple app containers
-
-🔗 Single entrypoint for clients
-
-📡 Automatic container networking
-
+```
                      Client
                         |
                         v
@@ -21,7 +20,7 @@ It includes:
                         |
                  +----------------+
                  |     NGINX      |
-                 |  Reverse Proxy |
+                 |  Load Balancer |
                  +--------+-------+
                           |
         -------------------------------------
@@ -29,64 +28,80 @@ It includes:
         v                                   v
  +-------------+                     +-------------+
  |  spring1    |                     |  spring2    |
- | (App Inst 1)|                     | (App Inst 2)|
+ | (Instance 1)|                     | (Instance 2)|
  +-------------+                     +-------------+
+```
 
+---
 
-**🧰 Technologies Used
-**
+## Technologies Used
 
-    Spring Boot
+- Spring Boot
+- Docker
+- Docker Compose
+- Nginx
+- Temurin JDK 17
 
-    Docker
+---
 
-    Docker Compose
+## Project Structure
 
-    Nginx (reverse proxy + load balancer)
+```
+project-root/
+│
+├── docker-compose.yml
+│
+├── nginx/
+│   └── default.conf
+│
+└── app/
+    └── springapp.jar
+```
 
-    Temurin JDK 17 (Docker base image)
+---
 
-**🛠️ How to Run
-**
-**   1️⃣ Clone the repository
-**  
-      git clone https://github.com/<your-username>/springboot-nginx-docker-loadbalancer.git
-      cd springboot-nginx-docker-loadbalancer
+## Running the Project
 
-**  2️⃣ Ensure your Spring Boot JAR is placed in app/ as:
-**  
-      app/springapp.jar
-      
-**  3️⃣ Start all services
-**  
-      docker-compose up -d
+1. Clone the repo:
+```bash
+git clone https://github.com/<your-username>/<repo-name>.git
+cd <repo-name>
+```
 
-**4️⃣ Check running containers
-**
-    docker ps
+2. Place your Spring Boot JAR as `app/springapp.jar`.
 
+3. Start services:
+```bash
+docker-compose up -d
+```
 
-**  You should see: **
+4. Verify:
+```bash
+docker ps
+```
 
-    nginx
+---
 
-    spring1
+## Testing Load Balancing
 
-    spring2
-
-5️⃣ Test the application
-
-Open:
-
+Visit:
+```
 http://localhost:8081/instance
+```
 
+Refresh several times — responses should alternate between `spring1` and `spring2`.
 
-Refresh multiple times — you will see responses alternate between:
+---
 
-Served by instance: spring1
-Served by instance: spring2
+## Stopping the Services
 
+```bash
+docker-compose down
+```
 
-🎉 Load balancing works!
+---
 
-  
+## Author
+
+**Naga Venkata Somaraju Indukuri**
+Spring Boot | Docker | Nginx | DevOps
