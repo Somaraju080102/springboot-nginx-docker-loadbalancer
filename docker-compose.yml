@@ -1,0 +1,32 @@
+services:
+  spring1:
+    image: eclipse-temurin:17-jdk
+    container_name: spring1
+    working_dir: /app
+    command: ["java", "-jar", "springapp.jar"]
+    volumes:
+      - ./app/springapp.jar:/app/springapp.jar
+    expose:
+      - "8080"
+
+  spring2:
+    image: eclipse-temurin:17-jdk
+    container_name: spring2
+    working_dir: /app
+    command: ["java", "-jar", "springapp.jar"]
+    volumes:
+      - ./app/springapp.jar:/app/springapp.jar
+    expose:
+      - "8080"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - spring1
+      - spring2
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
